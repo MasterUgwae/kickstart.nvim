@@ -232,6 +232,7 @@ vim.keymap.set('n', '<leader>fd', '<cmd>Dealwithit<CR>')
 
 vim.keymap.set('n', '<leader>mc', '<cmd>w<CR><cmd>!g++ ' .. vim.fn.expand '%:t' .. ' -o main.exe<CR>')
 vim.keymap.set('n', '<leader>mr', '<cmd>!main.exe<CR>')
+vim.keymap.set('n', '<leader>pr', "<cmd>w<CR><cmd>!python3 '" .. vim.fn.expand '%:t' .. "'<CR>")
 -- [[ Configure and install plugins ]]
 --
 --  To check the current status of your plugins, run
@@ -342,6 +343,10 @@ require('lazy').setup({
   },
   {
     'skywind3000/vim-keysound',
+  },
+  {
+    'stevearc/conform.nvim',
+    opts = {},
   },
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -721,6 +726,7 @@ require('lazy').setup({
         html = {},
         -- ruby_lsp = {},
         rust_analyzer = {},
+        gopls = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -812,10 +818,10 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        python = { 'isort', 'black' },
+        python = { 'isort', 'black', stop_after_first = true },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
@@ -1107,5 +1113,6 @@ require('lspconfig').solargraph.setup {
     },
   },
 }
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
