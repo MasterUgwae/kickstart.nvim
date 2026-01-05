@@ -17,6 +17,9 @@ vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
@@ -30,6 +33,7 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+vim.diagnostic.open_float()
 vim.keymap.set('n', '<C-_>', function()
   require('Comment.api').toggle.linewise.current()
 end, { noremap = true, silent = true })
@@ -52,12 +56,15 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 vim.opt.rtp:prepend(lazypath)
-vim.keymap.set('n', '<leader>fml', '<cmd>CellularAutomaton make_it_rain<CR>')
-vim.keymap.set('n', '<leader>fmg', '<cmd>CellularAutomaton game_of_life<CR>')
-vim.keymap.set('n', '<leader>fd', '<cmd>Dealwithit<CR>')
-vim.keymap.set('n', '<leader>mc', '<cmd>w<CR><cmd>!g++ ' .. vim.fn.expand '%:t' .. ' -o main.exe<CR>')
-vim.keymap.set('n', '<leader>mr', '<cmd>!main.exe<CR>')
-vim.keymap.set('n', '<leader>pr', "<cmd>w<CR><cmd>!python3 '" .. vim.fn.expand '%:t' .. "'<CR>")
+vim.keymap.set('n', '<leader>p', function()
+  local file = vim.fn.expand '%'
+  vim.cmd('!python ' .. file)
+end, { noremap = true, silent = true, desc = 'Run current Python file' })
+vim.g.vimtex_quickfix_ignore_filters = {
+  'Package hyperref Warning: Token not allowed in a PDF string',
+  'Package typearea Warning: Bad type area settings!',
+  'Package caption Warning:',
+}
 require('lazy').setup({
   {
     'tpope/vim-sleuth',
@@ -72,6 +79,15 @@ require('lazy').setup({
   {
     'metalelf0/jellybeans-nvim',
     requires = { 'rktjmp/lush.nvim' },
+  },
+  {
+    'lervag/vimtex',
+    lazy = false, -- we don't want to lazy load VimTeX
+    -- tag = "v2.15", -- uncomment to pin to a specific release
+    init = function()
+      -- VimTeX configuration goes here, e.g.
+      vim.g.vimtex_view_method = 'general'
+    end,
   },
   {
     'neovim/nvim-lspconfig',
@@ -96,13 +112,15 @@ require('lazy').setup({
       }
     end,
   },
+  --[[
   {
     'Shopify/ruby-lsp',
     config = function()
       local lspconfig = require 'lspconfig'
       lspconfig.ruby_lsp.setup {}
     end,
-  },
+  },]]
+  --
   {
     'numToStr/Comment.nvim',
     config = function()
@@ -302,6 +320,8 @@ require('lazy').setup({
         pyright = {},
         html = {},
         rust_analyzer = {},
+        hls = {},
+        texlab = {},
         gopls = {},
         lua_ls = {
           settings = {
@@ -426,14 +446,6 @@ require('lazy').setup({
       }
     end,
   },
-  {
-    'folke/tokyonight.nvim',
-    priority = 1000,
-    init = function()
-      vim.cmd.colorscheme 'tokyonight'
-      vim.cmd.hi 'Comment gui=none'
-    end,
-  },
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
   {
     'echasnovski/mini.nvim',
@@ -463,7 +475,6 @@ require('lazy').setup({
   },
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns',
 }, {
   ui = {
@@ -485,7 +496,7 @@ require('lazy').setup({
   },
 })
 vim.o.termguicolors = true
-vim.cmd 'colorscheme jellybeans-nvim'
+vim.cmd.colorscheme 'jellybeans-nvim'
 vim.g.sleuth_default_shiftwidth = 4
 vim.g.sleuth_default_tabstop = 4
 vim.g.clang_format_path = 'C:/msys64/mingw64/bin/clang-format.exe'
@@ -517,3 +528,5 @@ require('lspconfig').solargraph.setup {
     },
   },
 }
+vim.g.vimtex_view_method = 'general'
+require 'plugins/luasnip'
