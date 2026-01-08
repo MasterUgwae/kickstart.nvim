@@ -40,6 +40,16 @@ end, { noremap = true, silent = true })
 vim.keymap.set('v', '<C-_>', function()
   require('Comment.api').toggle.linewise(vim.fn.visualmode())
 end, { noremap = true, silent = true })
+<<<<<<< HEAD
+=======
+
+-- [[ Basic Autocommands ]]
+--  See `:help lua-guide-autocommands`
+
+-- Highlight when yanking (copying) text
+--  Try it with `yap` in normal mode
+--  See `:help vim.highlight.on_yank()`
+>>>>>>> 38e95cc (Resolving changes)
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
@@ -56,6 +66,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 vim.opt.rtp:prepend(lazypath)
+<<<<<<< HEAD
 vim.keymap.set('n', '<leader>p', function()
   local file = vim.fn.expand '%'
   vim.cmd('!python ' .. file)
@@ -65,6 +76,30 @@ vim.g.vimtex_quickfix_ignore_filters = {
   'Package typearea Warning: Bad type area settings!',
   'Package caption Warning:',
 }
+=======
+vim.keymap.set('n', '<leader>fml', '<cmd>CellularAutomaton make_it_rain<CR>')
+vim.keymap.set('n', '<leader>fmg', '<cmd>CellularAutomaton game_of_life<CR>')
+vim.keymap.set('n', '<leader>fd', '<cmd>Dealwithit<CR>')
+
+vim.keymap.set('n', '<leader>mc', '<cmd>w<CR><cmd>!g++ ' .. vim.fn.expand '%:t' .. ' -o main.exe<CR>')
+vim.keymap.set('n', '<leader>mr', '<cmd>!main.exe<CR>')
+vim.keymap.set('n', '<leader>pr', "<cmd>w<CR><cmd>!python3 '" .. vim.fn.expand '%:t' .. "'<CR>")
+-- [[ Configure and install plugins ]]
+--
+--  To check the current status of your plugins, run
+--    :Lazy
+--
+--  You can press `?` in this menu for help. Use `:q` to close the window
+--
+--  To update plugins you can run
+--    :Lazy update
+--
+-- NOTE: here is where you install your plugins.
+
+vim.keymap.set('n', '<leader>cl', '<cmd>colorscheme github_light<CR>')
+vim.keymap.set('n', '<leader>cd', '<cmd>colorscheme jellybeans<CR>')
+
+>>>>>>> 38e95cc (Resolving changes)
 require('lazy').setup({
   {
     'tpope/vim-sleuth',
@@ -134,8 +169,26 @@ require('lazy').setup({
     'stevearc/conform.nvim',
     opts = {},
   },
+<<<<<<< HEAD
   { 'projekt0n/github-nvim-theme', name = 'github-theme' },
   {
+=======
+  {
+    'github/copilot.vim',
+  },
+  { 'projekt0n/github-nvim-theme', name = 'github-theme' }, -- NOTE: Plugins can also be added by using a table,
+  -- with the first argument being the link and the following
+  -- keys can be used to configure plugin behavior/loading/etc.
+  --
+  -- Use `opts = {}` to force a plugin to be loaded.
+  --
+  -- Here is a more advanced example where we pass configuration
+  -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
+  --    require('gitsigns').setup({ ... })
+
+  -- See `:help gitsigns` to understand what the configuration keys do
+  { -- Adds git related signs to the gutter, as well as utilities for managing changes
+>>>>>>> 38e95cc (Resolving changes)
     'lewis6991/gitsigns.nvim',
     opts = {
       signs = {
@@ -336,7 +389,12 @@ require('lazy').setup({
       require('mason').setup()
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
+<<<<<<< HEAD
         'stylua',
+=======
+        'stylua', -- Used to format Lua code
+        --'isort',
+>>>>>>> 38e95cc (Resolving changes)
         'black',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
