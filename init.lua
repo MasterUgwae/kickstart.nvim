@@ -40,16 +40,6 @@ end, { noremap = true, silent = true })
 vim.keymap.set('v', '<C-_>', function()
   require('Comment.api').toggle.linewise(vim.fn.visualmode())
 end, { noremap = true, silent = true })
-<<<<<<< HEAD
-=======
-
--- [[ Basic Autocommands ]]
---  See `:help lua-guide-autocommands`
-
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
->>>>>>> 38e95cc (Resolving changes)
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
@@ -99,7 +89,6 @@ vim.keymap.set('n', '<leader>pr', "<cmd>w<CR><cmd>!python3 '" .. vim.fn.expand '
 vim.keymap.set('n', '<leader>cl', '<cmd>colorscheme github_light<CR>')
 vim.keymap.set('n', '<leader>cd', '<cmd>colorscheme jellybeans<CR>')
 
->>>>>>> 38e95cc (Resolving changes)
 require('lazy').setup({
   {
     'tpope/vim-sleuth',
@@ -117,10 +106,8 @@ require('lazy').setup({
   },
   {
     'lervag/vimtex',
-    lazy = false, -- we don't want to lazy load VimTeX
-    -- tag = "v2.15", -- uncomment to pin to a specific release
+    lazy = false, 
     init = function()
-      -- VimTeX configuration goes here, e.g.
       vim.g.vimtex_view_method = 'general'
     end,
   },
@@ -147,15 +134,6 @@ require('lazy').setup({
       }
     end,
   },
-  --[[
-  {
-    'Shopify/ruby-lsp',
-    config = function()
-      local lspconfig = require 'lspconfig'
-      lspconfig.ruby_lsp.setup {}
-    end,
-  },]]
-  --
   {
     'numToStr/Comment.nvim',
     config = function()
@@ -169,26 +147,8 @@ require('lazy').setup({
     'stevearc/conform.nvim',
     opts = {},
   },
-<<<<<<< HEAD
   { 'projekt0n/github-nvim-theme', name = 'github-theme' },
   {
-=======
-  {
-    'github/copilot.vim',
-  },
-  { 'projekt0n/github-nvim-theme', name = 'github-theme' }, -- NOTE: Plugins can also be added by using a table,
-  -- with the first argument being the link and the following
-  -- keys can be used to configure plugin behavior/loading/etc.
-  --
-  -- Use `opts = {}` to force a plugin to be loaded.
-  --
-  -- Here is a more advanced example where we pass configuration
-  -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
-  --    require('gitsigns').setup({ ... })
-
-  -- See `:help gitsigns` to understand what the configuration keys do
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
->>>>>>> 38e95cc (Resolving changes)
     'lewis6991/gitsigns.nvim',
     opts = {
       signs = {
@@ -389,12 +349,7 @@ require('lazy').setup({
       require('mason').setup()
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-<<<<<<< HEAD
         'stylua',
-=======
-        'stylua', -- Used to format Lua code
-        --'isort',
->>>>>>> 38e95cc (Resolving changes)
         'black',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -588,3 +543,4 @@ require('lspconfig').solargraph.setup {
 }
 vim.g.vimtex_view_method = 'general'
 require 'plugins/luasnip'
+
