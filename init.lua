@@ -56,7 +56,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 vim.opt.rtp:prepend(lazypath)
-<<<<<<< HEAD
 vim.keymap.set('n', '<leader>p', function()
   local file = vim.fn.expand '%'
   vim.cmd('!python ' .. file)
@@ -66,28 +65,6 @@ vim.g.vimtex_quickfix_ignore_filters = {
   'Package typearea Warning: Bad type area settings!',
   'Package caption Warning:',
 }
-=======
-vim.keymap.set('n', '<leader>fml', '<cmd>CellularAutomaton make_it_rain<CR>')
-vim.keymap.set('n', '<leader>fmg', '<cmd>CellularAutomaton game_of_life<CR>')
-vim.keymap.set('n', '<leader>fd', '<cmd>Dealwithit<CR>')
-
-vim.keymap.set('n', '<leader>mc', '<cmd>w<CR><cmd>!g++ ' .. vim.fn.expand '%:t' .. ' -o main.exe<CR>')
-vim.keymap.set('n', '<leader>mr', '<cmd>!main.exe<CR>')
-vim.keymap.set('n', '<leader>pr', "<cmd>w<CR><cmd>!python3 '" .. vim.fn.expand '%:t' .. "'<CR>")
--- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
--- NOTE: here is where you install your plugins.
-
-vim.keymap.set('n', '<leader>cl', '<cmd>colorscheme github_light<CR>')
-vim.keymap.set('n', '<leader>cd', '<cmd>colorscheme jellybeans<CR>')
 
 require('lazy').setup({
   {
@@ -543,4 +520,5 @@ require('lspconfig').solargraph.setup {
 }
 vim.g.vimtex_view_method = 'general'
 require 'plugins/luasnip'
+
 
