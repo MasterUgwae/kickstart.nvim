@@ -310,7 +310,7 @@ require('lazy').setup({
         pyright = {},
         html = {},
         rust_analyzer = {},
-        hls = {},
+        --hls = {},
         texlab = {},
         gopls = {},
         lua_ls = {
@@ -491,34 +491,28 @@ vim.g.sleuth_default_shiftwidth = 4
 vim.g.sleuth_default_tabstop = 4
 vim.g.clang_format_path = 'C:/msys64/mingw64/bin/clang-format.exe'
 vim.g.clangd_path = 'C:/msys64/mingw64/bin/clangd.exe'
-vim.filetype.add {
-  extension = {
-    ['html.erb'] = 'eruby',
-  },
-  pattern = {
-    ['*.html.erb'] = 'eruby',
-  },
-}
-require('lspconfig').html.setup {
-  filetypes = { 'html', 'eruby' },
-  capabilities = {
-    textDocument = {
-      completion = {
-        snippetSupport = true,
-      },
-    },
-  },
-}
-require('lspconfig').solargraph.setup {
-  filetypes = { 'ruby', 'eruby' },
-  settings = {
-    solargraph = {
-      diagnostics = true,
-      completion = true,
-    },
-  },
-}
 vim.g.vimtex_view_method = 'general'
 require 'plugins/luasnip'
 
+local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+parser_config.bend = {
+  install_info = {
+    url = 'https://github.com/HigherOrderCO/tree-sitter-bend',
+    files = { 'src/parser.c', 'src/scanner.c' },
+    branch = 'main',
+  },
+}
 
+vim.filetype.add {
+  extension = { bend = 'bend' },
+}
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'bend',
+  callback = function()
+    vim.lsp.start {
+      name = 'bend-ls',
+      cmd = { 'bend-language-server' },
+      root_dir = vim.fs.dirname(vim.fs.find({ 'package.json', '.git' }, { upward = true })[1]),
+    }
+  end,
+})
