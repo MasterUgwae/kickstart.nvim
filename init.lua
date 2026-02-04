@@ -1,3 +1,13 @@
+-- TODO:
+-- NOTE:
+-- PERF:
+-- WARNING:
+-- WARN:
+-- HACK:
+-- BUG:
+-- FIXME:
+-- FIX:
+-- ISSUE:
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
