@@ -93,7 +93,7 @@ require('lazy').setup({
   },
   {
     'lervag/vimtex',
-    lazy = false, 
+    lazy = false,
     init = function()
       vim.g.vimtex_view_method = 'general'
     end,
@@ -198,7 +198,6 @@ require('lazy').setup({
   {
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
-    branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
       {
@@ -286,7 +285,7 @@ require('lazy').setup({
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
           local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+          if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
             local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
               buffer = event.buf,
@@ -306,7 +305,7 @@ require('lazy').setup({
               end,
             })
           end
-          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+          if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
             map('<leader>th', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
@@ -317,12 +316,12 @@ require('lazy').setup({
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
       local servers = {
         clangd = {},
-        pyright = {},
+        --pyright = {},
         html = {},
-        rust_analyzer = {},
+        --rust_analyzer = {},
         --hls = {},
-        texlab = {},
-        gopls = {},
+        --texlab = {},
+        --gopls = {},
         lua_ls = {
           settings = {
             Lua = {
@@ -337,7 +336,7 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua',
-        'black',
+        --'black',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
       require('mason-lspconfig').setup {
@@ -462,7 +461,6 @@ require('lazy').setup({
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    main = 'nvim-treesitter.configs',
     opts = {
       ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'python', 'cpp' },
       auto_install = true,
@@ -503,26 +501,3 @@ vim.g.clang_format_path = 'C:/msys64/mingw64/bin/clang-format.exe'
 vim.g.clangd_path = 'C:/msys64/mingw64/bin/clangd.exe'
 vim.g.vimtex_view_method = 'general'
 require 'plugins/luasnip'
-
-local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-parser_config.bend = {
-  install_info = {
-    url = 'https://github.com/HigherOrderCO/tree-sitter-bend',
-    files = { 'src/parser.c', 'src/scanner.c' },
-    branch = 'main',
-  },
-}
-
-vim.filetype.add {
-  extension = { bend = 'bend' },
-}
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'bend',
-  callback = function()
-    vim.lsp.start {
-      name = 'bend-ls',
-      cmd = { 'bend-language-server' },
-      root_dir = vim.fs.dirname(vim.fs.find({ 'package.json', '.git' }, { upward = true })[1]),
-    }
-  end,
-})
